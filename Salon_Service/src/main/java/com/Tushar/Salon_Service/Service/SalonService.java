@@ -15,9 +15,11 @@ public interface SalonService {
 
     Salon getSalonById(Long salonId);
 
-    Salon getSalonByOwnerId(String ownerId);
+    Salon getSalonByOwnerId(Long ownerId);
 
     List<Salon> getSalonsByCity(String city);
+
+    List<SalonDto> searchSalonByCity(String city);
 
 
 

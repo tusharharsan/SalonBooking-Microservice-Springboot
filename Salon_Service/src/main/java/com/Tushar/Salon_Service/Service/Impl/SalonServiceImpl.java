@@ -1,12 +1,12 @@
 package com.Tushar.Salon_Service.Service.Impl;
 
+import com.Tushar.Salon_Service.Mapper.SalonMapper;
 import com.Tushar.Salon_Service.Model.Salon;
 import com.Tushar.Salon_Service.Repository.SalonRespository;
 import com.Tushar.Salon_Service.Service.SalonService;
 import com.Tushar.Salon_Service.payload.Dto.SalonDto;
 import com.Tushar.Salon_Service.payload.Dto.UserDto;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,21 +57,35 @@ public class SalonServiceImpl implements SalonService {
 
     @Override
     public List<Salon> getAllSalons() {
-        return List.of();
+
+        return salonRespository.findAll();
     }
 
     @Override
     public Salon getSalonById(Long salonId) {
-        return null;
+        Salon salon = salonRespository.findById(salonId).orElse(null);
+        if(salon == null){
+            throw new RuntimeException("Salon not found with id: " + salonId);
+        }
+        return salon;
     }
 
     @Override
-    public Salon getSalonByOwnerId(String ownerId) {
-        return null;
+    public Salon getSalonByOwnerId(Long ownerId) {
+
+        return salonRespository.findByOwnerid(ownerId);
     }
 
     @Override
     public List<Salon> getSalonsByCity(String city) {
-        return List.of();
+        return salonRespository.searchSalons(city);
+    }
+
+    @Override
+    public List<SalonDto> searchSalonByCity(String city) {
+        return salonRespository.searchSalons(city)
+                .stream()
+                .map(SalonMapper::mapSalonToSalonDto)
+                .toList();
     }
 }

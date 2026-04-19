@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SalonRespository extends JpaRepository<Salon ,Long> {
-    Salon findByOwnerid(String ownerId);
+    Salon findByOwnerid(Long ownerId);
 
     @Query("SELECT s FROM Salon s WHERE s.name LIKE %:keyword% OR s.city LIKE %:keyword% OR s.address LIKE %:keyword%" )
     List<Salon> searchSalons(@Param("keyword") String keyword);

@@ -29,8 +29,9 @@ public class SalonDto {
     private String city;
 
 
-    private String ownerid;
+    private Long ownerid;
 
+    private UserDto owner;
 
     private LocalTime openingTime;
 

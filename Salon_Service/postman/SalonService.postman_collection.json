@@ -1,0 +1,193 @@
+{
+  "info": {
+    "name": "Salon Service API",
+    "_postman_id": "8b5713ad-cd36-4ac8-bc3e-b09e5897b0fd",
+    "description": "Collection for testing Salon Service endpoints on a fresh database.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 - Get All Salons (Empty DB should return [])",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/salons",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2 - Create Salon",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "if (jsonData.id) {",
+              "    pm.collectionVariables.set('salonId', jsonData.id);",
+              "}",
+              "if (jsonData.ownerid) {",
+              "    pm.collectionVariables.set('ownerId', jsonData.ownerid);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Urban Cut Studio\",\n  \"images\": [\"https://img.example/salon1.jpg\"],\n  \"address\": \"12 Main Street\",\n  \"phoneNumber\": \"9876543210\",\n  \"email\": \"urban.cut@example.com\",\n  \"city\": \"{{city}}\",\n  \"ownerid\": 1,\n  \"openingTime\": \"09:00:00\",\n  \"closeingTime\": \"20:00:00\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/salons",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3 - Get Salon By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/salons/{{salonId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons",
+            "{{salonId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4 - Update Salon",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Urban Cut Studio - Updated\",\n  \"images\": [\"https://img.example/salon1.jpg\"],\n  \"address\": \"12 Main Street\",\n  \"phoneNumber\": \"9876543210\",\n  \"email\": \"urban.cut@example.com\",\n  \"city\": \"{{city}}\",\n  \"ownerid\": 1,\n  \"openingTime\": \"09:30:00\",\n  \"closeingTime\": \"20:30:00\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/salons/{{salonId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons",
+            "{{salonId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5 - Get By Owner ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/salons/owner/{{ownerId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons",
+            "owner",
+            "{{ownerId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6 - Get By City (Path Param)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/salons/city/{{city}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons",
+            "city",
+            "{{city}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7 - Search By City (Query Param)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/salons/search?city={{city}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "salons",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "city",
+              "value": "{{city}}"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5002/api"
+    },
+    {
+      "key": "city",
+      "value": "Pune"
+    },
+    {
+      "key": "ownerId",
+      "value": "1"
+    },
+    {
+      "key": "salonId",
+      "value": ""
+    }
+  ]
+}
+
